@@ -1,11 +1,9 @@
 (function () {
     angular
-        .module('ui-notification', []);
+        .module('ui-notification', [])
+        .provider('notify', notify);
 
-    angular
-        .module('ui-notification')
-        .provider('notify', function () {
-
+    function notify() {
         this.options = {
             delay: 5000,
             startTop: 10,
@@ -84,14 +82,17 @@
                             var right = lastRight + (k * (horizontalSpacing + elWidth));
 
                             element.css(element._positionY, top + 'px');
+                            
                             if (element._positionX == 'center') {
-                                element.css('left', parseInt(window.innerWidth / 2 - elWidth / 2) + 'px');
-                            } else {
-                                element.css(element._positionX, right + 'px');
+                                element.addClass('center');
                             }
-
+                            else if (element._positionX == 'left') {
+                                element.addClass('left');
+                            }
+                            else if (element._positionX == 'right') {
+                                element.addClass('right');
+                            }
                             lastPosition[element._positionY + element._positionX] = top + elHeight;
-
                             j++;
                         }
                     };
@@ -102,10 +103,13 @@
                     templateElement.addClass(args.type);
                     templateElement.bind('webkitTransitionEnd oTransitionEnd otransitionend transitionend msTransitionEnd click', function (e) {
                         e = e.originalEvent || e;
-                        if (e.type === 'click' || (e.propertyName === 'opacity' && e.elapsedTime >= 1)) {
+                        if ((e.propertyName === 'opacity')) {
                             templateElement.remove();
                             messageElements.splice(messageElements.indexOf(templateElement), 1);
                             reposite();
+                        }
+                        else if (e.type === 'click') {
+                            templateElement.addClass('fast-killed');
                         }
                     });
                     if (angular.isNumber(args.delay)) {
@@ -173,5 +177,19 @@
 
             return notify;
         };
-    });
+    };
+
+    angular
+        .module('ui-notification')
+        .run(startup);
+
+    startup.$inject = ['$templateCache'];
+    function startup($templateCache) {
+        $templateCache.put(
+            'angular-ui-notification.html',
+            '<div class="ui-notification">' +
+                '<h3 data-ng-show="title" data-ng-bind-html="title"></h3>' +
+                '<div class="message" data-ng-bind-html="message"></div>' +
+            '</div>');
+    }
 })();
