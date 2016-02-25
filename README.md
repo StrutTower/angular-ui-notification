@@ -9,6 +9,8 @@ angular-ui-notification
 
 Angular.js service providing simple notifications using Bootstrap 3 styles with css transitions for animations
 
+[Live Demo](https://rawgit.com/StrutTower/angular-ui-notification/v0.1.1/demo/index.html)
+
 ## Features
 * No dependencies except of angular.js.
 * CSS3 Animations.
@@ -32,9 +34,7 @@ npm install angular-ui-notification --save
 ```
 
 ## Usage
- [Heres a plunker demo](http://plnkr.co/edit/h08qQF2qlVE3arERpdfi?p=preview)
 
-  
 In your html/template add 
 ```html
 ...
@@ -73,30 +73,30 @@ angular.module('notificationTest', ['ui-notification'])
 And when you need to show notifications, inject service and call it!
 
 ```javascript
-angular.module('notificationTest').controller('notificationController', function($scope, Notification) {
+angular.module('notificationTest').controller('notificationController', function($scope, notify) {
  
-  Notification.primary('Primary notification');
+  notify.primary('Primary notification');
   // or simply..
-  Notification('Primary notification');
+  notify('Primary notification');
   
   // Other Options
   // Success
-  Notification.success('Success notification');
+  notify.success('Success notification');
   
   // With Title
-  Notification({message: 'Primary notification', title: 'Primary notification'});
+  notify({message: 'Primary notification', title: 'Primary notification'});
   
   // Message with custom delay
-  Notification.error({message: 'Error notification 1s', delay: 1000});
+  notify.danger({message: 'Error notification 1s', delay: 1000});
   
   // Embed HTML within your message.....
-  Notification.success({message: 'Success notification<br>Some other <b>content</b><br><a href="https://github.com/alexcrack/angular-ui-notification">This is a link</a><br><img src="https://angularjs.org/img/AngularJS-small.png">', title: 'Html content'});
+  notify.success({message: 'Success notification<br>Some other <b>content</b><br><a href="https://github.com/alexcrack/angular-ui-notification">This is a link</a><br><img src="https://angularjs.org/img/AngularJS-small.png">', title: 'Html content'});
 
   // Change position notification
-  Notification.error({message: 'Error Bottom Right', positionY: 'bottom', positionX: 'right'});
+  notify.danger({message: 'Error Bottom Right', positionY: 'bottom', positionX: 'right'});
   
   // Replace message
-  Notification.error({message: 'Error notification 1s', replaceMessage: true});
+  notify.error({message: 'Error notification 1s', replaceMessage: true});
 }
 ```
 
@@ -104,7 +104,7 @@ angular.module('notificationTest').controller('notificationController', function
 
 Module name: "ui-notification"
 
-Service: "Notification"
+Service: "notify"
 
 Configuration provider: "NotificationProvider"
 
@@ -135,14 +135,14 @@ Also you can pass the "scope" option. This is an angular scope option Notificati
 
 |              Method name               |                   Description                   |
 |----------------------------------------|-------------------------------------------------|
-| Notification(), Notification.primary() | Show the message with bootstrap's primary class |
-| Notification.info()                    | Show the message with bootstrap's info class    |
-| Notification.success()                 | Show the message with bootstrap's success class |
-| Notification.warning()                 | Show the message with bootstrap's warn class    |
-| Notification.error()                   | Show the message with bootstrap's danger class  |
-| Notification.clearAll()                | Remove all shown messages                       |
+| notify(), notify.primary()             | Show the message with bootstrap's primary class |
+| notify.info()                          | Show the message with bootstrap's info class    |
+| notify.success()                       | Show the message with bootstrap's success class |
+| notify.warning()                       | Show the message with bootstrap's warn class    |
+| notify.error()                         | Show the message with bootstrap's danger class  |
+| notify.clearAll()                      | Remove all shown messages                       |
 
-#### Notification service options
+#### notify service options
 
 |     Option     |                 Possible values                  |           Default value           |                                              Description                                               |
 | -------------- | ------------------------------------------------ | --------------------------------- | ------------------------------------------------------------------------------------------------------ |
