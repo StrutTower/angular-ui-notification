@@ -9,7 +9,7 @@ angular-ui-notification
 
 Angular.js service providing simple notifications using Bootstrap 3 styles with css transitions for animations
 
-[Live Demo](https://rawgit.com/StrutTower/angular-ui-notification/v0.1.1/demo/index.html)
+[Live Demo](https://rawgit.com/StrutTower/angular-ui-notification/v0.1.2/demo/index.html)
 
 ## Features
 * No dependencies except of angular.js.
