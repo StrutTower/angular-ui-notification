@@ -1,0 +1,41 @@
+$ui-notification-border-radius: 4px;
+
+.ui-notification {
+    border-radius: $ui-notification-border-radius;
+    position: fixed;
+    z-index: 99999;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    width: 300px;
+    padding: 5px;
+    -moz-transition: all ease 0.5s;
+    -o-transition: all ease 0.5s;
+    -webkit-transition: all ease 0.5s;
+    transition: all ease 0.5s;
+
+    &.killed {
+        opacity: 0;
+        -moz-transition: opacity 1s ease;
+        -o-transition: opacity 1s ease;
+        -webkit-transition: opacity 1s ease;
+        transition: opacity 1s ease;
+    }
+
+    & > h3 {
+        display: block;
+        margin: 10px 10px 0 10px;
+        padding: 0 0 5px 0;
+        text-align: left;
+        color:white;
+        font-weight: bold;
+    }
+
+    & > .message {
+        margin: 10px 10px 10px 10px;
+    }
+
+
+    &:hover {
+        opacity: 0.8;
+    }
+}
