@@ -15,17 +15,6 @@ Angular.js service providing simple notifications using Bootstrap 3 styles with 
 * Use custom options by the message
 * Use custom template
 
-## Install
-
-To install the package using bower and save as a dependency use...
-```bash
-bower install angular-ui-notification --save
-```  
-
-To install via NPM:
-```bash
-npm install angular-ui-notification --save
-```
 
 ## Usage
 
@@ -36,8 +25,6 @@ In your html/template add
 ...
   <script src="angular-ui-notification.min.js"></script>
 ...
-
-```
 
 In your application, declare dependency injection like so..
 
