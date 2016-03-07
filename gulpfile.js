@@ -31,7 +31,7 @@ gulp.task('styles', function() {
             strictMath: true
         }))
         .pipe(csscomb())
-        .pipe(header(banner, { pkg : pkg }))
+        .pipe(header(banner, { pkg: pkg }))
         .pipe(rename({
             basename: 'angular-ui-notification'
         }))
@@ -40,9 +40,8 @@ gulp.task('styles', function() {
         .pipe(rename({
             suffix: '.min'
         }))
-        .pipe(header(banner, { pkg : pkg }))
-        .pipe(gulp.dest('dist'))
-        .pipe(gulp.dest('demo'));
+        .pipe(header(banner, { pkg: pkg }))
+        .pipe(gulp.dest('dist'));
 });
 
 // ====== Templates
@@ -73,16 +72,15 @@ gulp.task('service', function() {
         ]))
         .pipe(concat('angular-ui-notification.js'))
 
-        .pipe(header(banner, { pkg : pkg }))
+        .pipe(header(banner, { pkg: pkg }))
         .pipe(gulp.dest('dist'))
 
         .pipe(uglify())
         .pipe(rename({
             suffix: '.min'
         }))
-        .pipe(header(banner, { pkg : pkg }))
-        .pipe(gulp.dest('dist'))
-        .pipe(gulp.dest('demo'));
+        .pipe(header(banner, { pkg: pkg }))
+        .pipe(gulp.dest('dist'));
 });
 
 // ======
@@ -94,8 +92,8 @@ gulp.task('e2eTest', function() {
         .on('error', function(e) {throw e});
 });
 
-gulp.task('tests', ['e2eTest']);
-gulp.task('build', ['templates', 'service', 'styles']);
-gulp.task('deploy', ['build', 'tests']);
+gulp.task('_tests', ['e2eTest']);
+gulp.task('_build', ['templates', 'service', 'styles']);
+gulp.task('_deploy', ['_build', '_tests']);
 
-gulp.task('default', ['deploy'], function() {});
+gulp.task('default', ['_deploy'], function() {});

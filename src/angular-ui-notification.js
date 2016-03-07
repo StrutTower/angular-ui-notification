@@ -21,7 +21,9 @@
             this.options = angular.extend({}, this.options, options);
         };
 
-        this.$get = function ($timeout, $http, $compile, $templateCache, $rootScope, $injector, $sce, $q, $window) {
+        this.$get = getNotify;
+        getNotify.$inject = ['$timeout', '$http', '$compile', '$templateCache', '$rootScope', '$sce', '$q', '$window'];
+        function getNotify ($timeout, $http, $compile, $templateCache, $rootScope, $sce, $q, $window) {
             var options = this.options;
 
             var startTop = options.startTop;
@@ -176,8 +178,8 @@
             };
 
             return notify;
-        };
-    };
+        }
+    }
 
     angular
         .module('ui-notification')
