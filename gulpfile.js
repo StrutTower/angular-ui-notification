@@ -1,99 +1,62 @@
-var gulp = require('gulp');
-var less = require('gulp-less');
-var minifyCSS = require('gulp-minify-css');
-var csscomb = require('gulp-csscomb');
-var ngAnnotate = require('gulp-ng-annotate');
-var uglify = require('gulp-uglify');
-var jshint = require('gulp-jshint');
-var rename = require('gulp-rename');
-var header = require('gulp-header');
-var templateCache = require('gulp-angular-templatecache');
-var minifyHtml = require("gulp-minify-html");
-var concat = require('gulp-concat');
-var addsrc = require('gulp-add-src');
-var order = require("gulp-order");
-var protractor = require("gulp-protractor").protractor;
 
-var pkg = require('./package.json');
-var banner = ['/**',
-  ' * <%= pkg.name %> - <%= pkg.description %>',
-  ' * @author <%= pkg.author %>',
-  ' * @version v<%= pkg.version %>',
-  ' * @link <%= pkg.homepage %>',
-  ' * @license <%= pkg.license %>',
-  ' */',
-  ''].join('\n');
+var gulp = require('gulp'),
+    concat = require('gulp-concat'),
+    sass = require('gulp-sass'),
+    uglify = require('gulp-uglify'),
+    cssMin = require('gulp-minify-css'),
+    templateCache = require('gulp-angular-templatecache'),
+    jscs = require('gulp-jscs'),
+    jshint = require('gulp-jshint');
 
-  // ==== Styles
-gulp.task('styles', function() {
-    gulp.src('src/build.less')
-        .pipe(less({
-            strictMath: true
-        }))
-        .pipe(csscomb())
-        .pipe(header(banner, { pkg: pkg }))
-        .pipe(rename({
-            basename: 'angular-ui-notification'
-        }))
-        .pipe(gulp.dest('dist'))
-        .pipe(minifyCSS())
-        .pipe(rename({
-            suffix: '.min'
-        }))
-        .pipe(header(banner, { pkg: pkg }))
-        .pipe(gulp.dest('dist'));
-});
-
-// ====== Templates
-gulp.task('templates', function() {
-    gulp.src(['*.html'], {cwd: 'src'})
-        .pipe(minifyHtml({
-            empty: true,
-            spare: true,
-            quotes: true
-        }))
-        .pipe(templateCache({
+var options = {
+    sass: {
+        files: ['src/angular-ui-notification.scss'],
+        output: 'angular-ui-notification.css',
+        minifiedOutput: 'angular-ui-notification.min.css',
+        dest: 'dist'
+    },
+    js: {
+        files: [
+            'src/angular-ui-notification.js',
+            'src/templates.js'
+        ],
+        output: 'angular-ui-notification.js',
+        minifiedOutput: 'angular-ui-notification.min.js',
+        dest: 'dist'
+    },
+    template: {
+        files: ['src/angular-ui-notification.html'],
+        options: {
             module: 'ui-notification'
-        }))
-        .pipe(rename('angular-ui-notification.templates.js'))
-        .pipe(gulp.dest("build"));
+        },
+        dest: 'src'
+    }
+}
+
+gulp.task('default', ['sass', 'js']);
+
+gulp.task('templateCache', function () {
+    gulp.src(options.template.files)
+        .pipe(templateCache(options.template.options))
+        .pipe(gulp.dest(options.template.dest));
 });
 
-gulp.task('service', function() {
-    gulp.src(['src/*.js'])
-        .pipe(jshint())
-        .pipe(jshint.reporter('default'))
-        .pipe(jshint.reporter('fail'))
-        .pipe(ngAnnotate())
-        .pipe(addsrc('build/*.js'))
-        .pipe(order([
-            'src/*.js',
-            'build/angular-ui-notification.templates.js'
-        ]))
-        .pipe(concat('angular-ui-notification.js'))
-
-        .pipe(header(banner, { pkg: pkg }))
-        .pipe(gulp.dest('dist'))
-
+gulp.task('js', ['templateCache'], function () {
+    gulp.src(options.js.files)
+        .pipe(concat(options.js.output))
+        .pipe(gulp.dest(options.js.dest))
         .pipe(uglify())
-        .pipe(rename({
-            suffix: '.min'
-        }))
-        .pipe(header(banner, { pkg: pkg }))
-        .pipe(gulp.dest('dist'));
+        .pipe(concat(options.js.minifiedOutput))
+        .pipe(gulp.dest(options.js.dest));
 });
 
-// ======
-gulp.task('e2eTest', function() {
-    gulp.src(['./test/**/*_spec.js'])
-        .pipe(protractor({
-            configFile: "protractor_conf.js"
+gulp.task('sass', function () {
+    gulp.src(options.sass.files)
+        .pipe(sass({ errLogToConsole: true }).on('error', sass.logError))
+        .pipe(gulp.dest(options.sass.dest))
+        .pipe(cssMin({
+            keepSpecialComments: 0
         }))
-        .on('error', function(e) {throw e});
+        .pipe(concat(options.sass.minifiedOutput))
+        .pipe(gulp.dest(options.sass.dest));
 });
-
-gulp.task('_tests', ['e2eTest']);
-gulp.task('_build', ['templates', 'service', 'styles']);
-gulp.task('_deploy', ['_build', '_tests']);
-
-gulp.task('default', ['_deploy'], function() {});

@@ -1,0 +1,1 @@
+angular.module("ui-notification").run(["$templateCache", function($templateCache) {$templateCache.put("angular-ui-notification.html","<div class=\"ui-notification\">\r\n    <h3 data-ng-show=\"title\" data-ng-bind-html=\"title\"></h3>\r\n    <div class=\"message\" data-ng-bind-html=\"message\"></div>\r\n</div>");}]);
