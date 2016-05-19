@@ -1,13 +1,18 @@
-
+/// <binding ProjectOpened='sass-watch' />
+//#region Modules
 var gulp = require('gulp'),
     concat = require('gulp-concat'),
     sass = require('gulp-sass'),
     uglify = require('gulp-uglify'),
-    cssMin = require('gulp-minify-css'),
+    cssMin = require('gulp-cssmin'),
+    include = require('gulp-include'),
+    preprocess = require('gulp-preprocess'),
     templateCache = require('gulp-angular-templatecache'),
     jscs = require('gulp-jscs'),
     jshint = require('gulp-jshint');
+//#endregion
 
+//#region Options
 var options = {
     sass: {
         files: ['src/angular-ui-notification.scss'],
@@ -17,8 +22,7 @@ var options = {
     },
     js: {
         files: [
-            'src/angular-ui-notification.js',
-            'src/templates.js'
+            'src/angular-ui-notification.js'
         ],
         output: 'angular-ui-notification.js',
         minifiedOutput: 'angular-ui-notification.min.js',
@@ -32,18 +36,22 @@ var options = {
         dest: 'src'
     }
 }
+//#endregion
 
+//#region Tasks
 gulp.task('default', ['sass', 'js']);
 
-gulp.task('templateCache', function () {
-    gulp.src(options.template.files)
+gulp.task('template', function () {
+    return gulp.src(options.template.files)
         .pipe(templateCache(options.template.options))
         .pipe(gulp.dest(options.template.dest));
 });
 
-gulp.task('js', ['templateCache'], function () {
-    gulp.src(options.js.files)
+gulp.task('js', ['template'], function () {
+    return gulp.src(options.js.files)
         .pipe(concat(options.js.output))
+        .pipe(include())
+        .pipe(preprocess())
         .pipe(gulp.dest(options.js.dest))
         .pipe(uglify())
         .pipe(concat(options.js.minifiedOutput))
@@ -51,7 +59,7 @@ gulp.task('js', ['templateCache'], function () {
 });
 
 gulp.task('sass', function () {
-    gulp.src(options.sass.files)
+    return gulp.src(options.sass.files)
         .pipe(sass({ errLogToConsole: true }).on('error', sass.logError))
         .pipe(gulp.dest(options.sass.dest))
         .pipe(cssMin({
@@ -60,3 +68,20 @@ gulp.task('sass', function () {
         .pipe(concat(options.sass.minifiedOutput))
         .pipe(gulp.dest(options.sass.dest));
 });
+
+gulp.task('sass-watch', function () {
+    return gulp.watch(option.sass.files, ['sass']);
+});
+
+gulp.task('_jsHint', function () {
+    return gulp.src(['src/**/*.js', '!src/templates.js'])
+        .pipe(jshint())
+        .pipe(jshint.reporter());
+});
+
+gulp.task('_jscs', function () {
+    return gulp.src(['src/**/*.js', '!src/templates.js'])
+        .pipe(jscs())
+        .pipe(jscs.reporter());
+});
+//#endregion

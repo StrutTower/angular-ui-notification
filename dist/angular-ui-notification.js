@@ -17,7 +17,9 @@
         };
 
         this.setOptions = function (options) {
-            if (!angular.isObject(options)) throw new Error("Options should be an object!");
+            if (!angular.isObject(options)) {
+                throw new Error('Options should be an object!');
+            }
             this.options = angular.extend({}, this.options, options);
         };
 
@@ -74,25 +76,27 @@
                             var elWidth = parseInt(element[0].offsetWidth);
                             var position = lastPosition[element._positionY + element._positionX];
 
+                            var top = (lastTop = position ? (j === 0 ? position : position + verticalSpacing) : startTop);
+                            var right = lastRight + (k * (horizontalSpacing + elWidth));
+
                             if ((top + elHeight) > window.innerHeight) {
                                 position = startTop;
                                 k++;
                                 j = 0;
                             }
 
-                            var top = (lastTop = position ? (j === 0 ? position : position + verticalSpacing) : startTop);
-                            var right = lastRight + (k * (horizontalSpacing + elWidth));
-
                             element.css(element._positionY, top + 'px');
                             
-                            if (element._positionX == 'center') {
-                                element.addClass('center');
-                            }
-                            else if (element._positionX == 'left') {
-                                element.addClass('left');
-                            }
-                            else if (element._positionX == 'right') {
-                                element.addClass('right');
+                            switch (element._positionX) {
+                                case 'center':
+                                    element.addClass('center');
+                                    break;
+                                case 'left':
+                                    element.addClass('left');
+                                    break;
+                                case 'right':
+                                    element.addClass('right');
+                                    break;
                             }
                             lastPosition[element._positionY + element._positionX] = top + elHeight;
                             j++;
@@ -122,7 +126,7 @@
 
                     angular.element(document.getElementsByTagName('body')).append(templateElement);
                     var offset = -(parseInt(templateElement[0].offsetHeight) + 50);
-                    templateElement.css(templateElement._positionY, offset + "px");
+                    templateElement.css(templateElement._positionY, offset + 'px');
                     messageElements.push(templateElement);
 
                     scope._templateElement = templateElement;
@@ -181,18 +185,5 @@
         }
     }
 
-    angular
-        .module('ui-notification')
-        .run(startup);
-
-    startup.$inject = ['$templateCache'];
-    function startup($templateCache) {
-        $templateCache.put(
-            'angular-ui-notification.html',
-            '<div class="ui-notification">' +
-                '<h3 data-ng-show="title" data-ng-bind-html="title"></h3>' +
-                '<div class="message" data-ng-bind-html="message"></div>' +
-            '</div>');
-    }
+    angular.module("ui-notification").run(["$templateCache", function($templateCache) {$templateCache.put("angular-ui-notification.html","<div class=\"ui-notification\">\r\n    <h3 data-ng-show=\"title\" data-ng-bind-html=\"title\"></h3>\r\n    <div class=\"message\" data-ng-bind-html=\"message\"></div>\r\n</div>");}]);
 })();
-angular.module("ui-notification").run(["$templateCache", function($templateCache) {$templateCache.put("angular-ui-notification.html","<div class=\"ui-notification\">\r\n    <h3 data-ng-show=\"title\" data-ng-bind-html=\"title\"></h3>\r\n    <div class=\"message\" data-ng-bind-html=\"message\"></div>\r\n</div>");}]);

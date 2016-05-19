@@ -3,7 +3,7 @@
         <title>Notification demo</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" type="text/css" href="bootstrap.default.min.css" id="theme-link">
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" id="theme-link">
         <link href="../dist/angular-ui-notification.min.css" rel="stylesheet" />
     </head>
     <body>
@@ -15,10 +15,22 @@
             <div class="pull-right" style="margin-right:10px;">
                 <h3>Change Theme</h3>
                 <div class="btn-group-vertical">
-                    <button class="btn btn-default" data-ng-click="vm.changeTheme('bootstrap.default.min.css')">Bootstrap Default</button>
-                    <button class="btn btn-default" data-ng-click="vm.changeTheme('darkly.min.css')">Bootswatch Darkly</button>
-                    <button class="btn btn-default" data-ng-click="vm.changeTheme('flatly.min.css')">Bootswatch Flatly</button>
-                    <button class="btn btn-default" data-ng-click="vm.changeTheme('paper.min.css')">Bootswatch Paper</button>
+                    <button class="btn btn-default"
+                            data-ng-click="vm.changeTheme('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css')">
+                        Bootstrap Default
+                    </button>
+                    <button class="btn btn-default" 
+                            data-ng-click="vm.changeTheme('https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.6/darkly/bootstrap.min.css')">
+                        Bootswatch Darkly
+                    </button>
+                    <button class="btn btn-default" 
+                            data-ng-click="vm.changeTheme('https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.6/flatly/bootstrap.min.css')">
+                        Bootswatch Flatly
+                    </button>
+                    <button class="btn btn-default" 
+                            data-ng-click="vm.changeTheme('https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.6/paper/bootstrap.min.css')">
+                        Bootswatch Paper
+                    </button>
                 </div>
             </div>
             <div class="container">
@@ -93,8 +105,9 @@
             </div>
         </script>
 
-        <script src="angular.js"></script>
-        <script src="../dist/angular-ui-notification.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+        <script src="../src/angular-ui-notification.js"></script>
+        <!--<script src="../dist/angular-ui-notification.min.js"></script>-->
         <script src="app.js"></script>
     </body>
 </html>

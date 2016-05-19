@@ -2,14 +2,8 @@
     'use strict';
 
     angular
-        .module('notificationTest', [
-            'ui-notification'
-        ]);
-
-    angular
-        .module('notificationTest')
+        .module('notificationTest', ['ui-notification'])
         .controller('NotificationController', notificationController);
-
 
     notificationController.$inject = ['$scope', 'notify'];
     function notificationController($scope, notify) {
