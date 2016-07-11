@@ -3,13 +3,9 @@
   "version": "0.1.0",
   "description": "Angular.js service providing simple notifications using Bootstrap 3 styles with css transitions for animating",
   "main": "index.js",
-  "scripts": {
-    "update-chromedriver": "./node_modules/protractor/bin/webdriver-manager update",
-    "test": "gulp tests"
-  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/alexcrack/angular-ui-notification.git"
+    "url": "https://github.com/StrutTower/angular-ui-notification.git"
   },
   "keywords": [
     "angular",
