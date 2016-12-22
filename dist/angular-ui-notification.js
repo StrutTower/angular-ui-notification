@@ -52,7 +52,7 @@
                 args.positionX = args.positionX ? args.positionX : options.positionX;
                 args.replaceMessage = args.replaceMessage ? args.replaceMessage : options.replaceMessage;
 
-                $http.get(args.template, { cache: $templateCache }).success(function (template) {
+                $http.get(args.template, { cache: $templateCache }).then(function (response) {
 
                     var scope = args.scope.$new();
                     scope.message = $sce.trustAsHtml(args.message);
@@ -103,7 +103,7 @@
                         }
                     };
 
-                    var templateElement = $compile(template)(scope);
+                    var templateElement = $compile(response.data)(scope);
                     templateElement._positionY = args.positionY;
                     templateElement._positionX = args.positionX;
                     templateElement.addClass(args.type);

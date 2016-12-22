@@ -70,18 +70,6 @@ gulp.task('sass', function () {
 });
 
 gulp.task('sass-watch', function () {
-    return gulp.watch(option.sass.files, ['sass']);
-});
-
-gulp.task('_jsHint', function () {
-    return gulp.src(['src/**/*.js', '!src/templates.js'])
-        .pipe(jshint())
-        .pipe(jshint.reporter());
-});
-
-gulp.task('_jscs', function () {
-    return gulp.src(['src/**/*.js', '!src/templates.js'])
-        .pipe(jscs())
-        .pipe(jscs.reporter());
+    return gulp.watch(options.sass.files, ['sass']);
 });
 //#endregion
