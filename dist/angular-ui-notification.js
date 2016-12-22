@@ -152,7 +152,7 @@
 
                     deferred.resolve(scope);
 
-                }).error(function (data) {
+                }).catch(function (data) {
                     throw new Error('Template (' + args.template + ') could not be loaded. ' + data);
                 });
 
