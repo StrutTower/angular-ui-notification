@@ -29,8 +29,5 @@
     "tests",
     "demo",
     "build"
-  ],
-  "devDependencies": {
-    "bootstrap": "~3.3.2"
-  }
+  ]
 }
